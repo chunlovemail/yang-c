@@ -1,0 +1,110 @@
+//<CODE BEGINS> file "com-oplink-port-common.yang"
+module com-oplink-port-common {
+    namespace "http://com/oplink/port/common";
+    prefix "com-oplink-port-common";
+
+    import org-openroadm-common-types{
+        prefix org-openroadm-common-types;
+    }
+
+
+    organization
+        "Oplink Communications, LLC";
+
+    contact
+        "Oplink Communications, LLC";
+
+    description
+        "YANG definitions of Oplink devices based on Openroadm datamodel";
+
+    revision 2016-06-10{
+        description
+             "Oplink Version 0.3";
+    }
+
+    revision 2016-02-26{
+        description
+            "Openroadm Version 0.3";
+    }
+
+    typedef port-wavelength-types {
+        type enumeration {
+            enum "wavelength" {
+                value 1;
+                description
+                    "Port on a transponder.";
+            } 
+            enum "multi-wavelegnth" {
+                value 2;
+                description
+                    "Port on a ROADM.";
+            } 
+            enum "all-wavelegnth" {
+                value 3;
+                description
+                    "Port on a EDFA (Oplink proprietary)";
+            }
+         }
+         description
+         "Port types.";
+    }
+
+    typedef port-qual-types {
+      type enumeration {
+        enum "roadm-internal" {
+          value 1;
+        }
+        enum "roadm-external" {
+          value 2;
+        }
+        enum "network" {
+          value 3;
+        }
+        enum "client" {
+          value 4;
+        }
+        enum "otdr" {
+          value 5;
+        }
+        enum "network-backup" {
+          value 6;
+          description
+             "backup ports for protection switch (Oplink proprietary)";
+        }
+      }
+    }
+
+  grouping common-port {
+    leaf port-power-capability-min-rx {
+      type org-openroadm-common-types:power-dBm;
+      description
+        "Based on port capabilities, the minimum power in the system spec for this port to
+         provide optimum function in rx direction";
+    }
+    leaf port-power-capability-min-tx {
+      type org-openroadm-common-types:power-dBm;
+      description
+        "Based on port capabilities, the minimum power in the system spec for this port to
+         provide optimum function in tx direction.";
+    }         
+    leaf port-power-capability-max-rx {
+      type org-openroadm-common-types:power-dBm;
+      description
+        "Based on port capabilities, the maximum power in the system spec for this port to
+         provide optimum function in rx direction.";
+    }
+    leaf port-power-capability-max-tx {
+      type org-openroadm-common-types:power-dBm;
+      description
+        "Based on port capabilities, the maximum power in the system spec for this port to
+         provide optimum function in tx direction.";
+    }                                             
+    leaf-list capable-wavelengths {
+      type uint32;
+      description
+        "List of wavelengths this port is capable of supporting.
+         can be used to access wavelength-map to get the wavelength value in nm";
+    }
+  }
+
+}//<CODE ENDS>
