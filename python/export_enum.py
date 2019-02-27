@@ -17,6 +17,11 @@ def tran_underline(source):
 			out += "_"
 	return out
 
+def append_file(prefix, line):
+	out_fd = open(prefix + ".h", "a+")
+	out_fd.write(line + "\n")
+	out_fd.close()
+
 def get_prefix(source):
 	line = re.match(r'module', source)
 	if line:
@@ -30,6 +35,9 @@ def get_typedef_key(source):
 		return name[1]
 
 def get_enum_str(source):
+	line = re.match(r'enum', source.strip())
+	if not line:
+		return
 	p = re.compile('.+?"(.+?)"')
 	enum_name = p.findall(source.strip())
 	if enum_name:
@@ -38,15 +46,16 @@ def get_enum_str(source):
 def get_enum(f_fd, key_name):
 	enumeration = ''
 	while True:
-		tmp = ''
-		tmp = f_fd.readline()
-		if not tmp:
+		line = f_fd.readline()
+		if not line:
 			continue;
-		enumeration += tmp
+		enumeration += line
 		
-		enum_name = get_enum_str(tmp)
+		enum_name = get_enum_str(line)
 		if enum_name:
-			print key_name + '-' + enum_name
+			define = key_name + '-' + enum_name
+			print define
+			append_file(g_prefix, tran_underline(define).upper())
 			
 		m = re.findall('{', enumeration)
 		n = re.findall('}', enumeration)
@@ -59,8 +68,15 @@ def init_out_file(prefix):
 	tmp = tran_underline(prefix)
 	out_fd.write("#ifndef " + "_" + tmp.upper() + "_" + "\n")
 	out_fd.write("#define " + "_" + tmp.upper() + "_" + "\n")
+	out_fd.write("\n")
+	out_fd.close()
+
+
+def close_out_file(prefix):
+	out_fd = open(prefix + ".h", "a+")
 	out_fd.write("#endif\n")
 	out_fd.close()
+
 
 g_source_fd = open(g_source_filename, "rt")
 while True:
@@ -81,3 +97,4 @@ while True:
 	else:
 		break
 g_source_fd.close()
+close_out_file(g_prefix)
