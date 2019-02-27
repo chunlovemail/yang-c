@@ -77,8 +77,9 @@ def get_typedef(f_fd, key_name):
 			
 		m = re.findall('{', tmp_buf)
 		n = re.findall('}', tmp_buf)
-		if (len(m) == len(n)):
-			#print tmp_buf
+		#print line
+		if ((len(m) == len(n)) and (len(m) != 0)):
+			print tmp_buf
 			break;
 	if b_enum_flag:
 		enum_list.append("    " + tran_underline(key_name).upper() + "_MAX")
