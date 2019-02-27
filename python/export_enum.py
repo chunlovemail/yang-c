@@ -57,7 +57,7 @@ def get_enum(f_fd, key_name):
 			define = key_name + '-' + enum_name
 			print define
 			if not b_flag:
-				append_file("/* " + g_prefix + ':' + key_name + "*/")
+				append_file("/* " + g_prefix + ':' + key_name + " */")
 				append_file("typedef enum en_" + tran_underline(key_name).upper())
 				append_file("{")
 				append_file("    " + tran_underline(define).upper() + "_NONE = 0,")
