@@ -22,6 +22,10 @@ def append_file(line):
 	out_fd.write(line + "\n")
 	out_fd.close()
 
+def export_list_to_file(enum_list):
+	for i in range(0, len(enum_list)):
+		append_file(enum_list[i])
+
 def get_prefix(source):
 	line = re.match(r'module', source)
 	if line:
@@ -43,34 +47,43 @@ def get_enum_str(source):
 	if enum_name:
 		return enum_name[0]
 
-def get_enum(f_fd, key_name):
-	enumeration = ''
-	b_flag = False
+def get_typedef_type(source):
+	line = re.match(r'type', source.strip())
+	if line:
+		name = source.strip().split(" ")
+		return name[1]
+
+def get_typedef(f_fd, key_name):
+	tmp_buf = ''
+	b_enum_flag = False
+	enum_list = []
 	while True:
 		line = f_fd.readline()
 		if not line:
 			continue;
-		enumeration += line
+		tmp_buf += line
 		
+		get_typedef_type(line)
 		enum_name = get_enum_str(line)
 		if enum_name:
 			define = key_name + '-' + enum_name
-			print define
-			if not b_flag:
-				append_file("/* " + g_prefix + ':' + key_name + " */")
-				append_file("typedef enum en_" + tran_underline(key_name).upper())
-				append_file("{")
-				append_file("    " + tran_underline(define).upper() + "_NONE = 0,")
-				b_flag = True
-			append_file("    " + tran_underline(define).upper() + ",")
+			if not b_enum_flag:
+				enum_list.append("/* " + g_prefix + ':' + key_name + " */")
+				enum_list.append("typedef enum en_" + tran_underline(key_name).upper())
+				enum_list.append("{")
+				enum_list.append("    " + tran_underline(define).upper() + "_NONE = 0,")
+				b_enum_flag = True
+			enum_list.append("    " + tran_underline(define).upper() + ",")
 			
-		m = re.findall('{', enumeration)
-		n = re.findall('}', enumeration)
+		m = re.findall('{', tmp_buf)
+		n = re.findall('}', tmp_buf)
 		if (len(m) == len(n)):
-			#print enumeration
+			#print tmp_buf
 			break;
-	append_file("    " + tran_underline(key_name).upper() + "_MAX")
-	append_file("} EN_" + tran_underline(key_name).upper() + ";\n")
+	if b_enum_flag:
+		enum_list.append("    " + tran_underline(key_name).upper() + "_MAX")
+		enum_list.append("} EN_" + tran_underline(key_name).upper() + ";\n")
+		export_list_to_file(enum_list)
 	
 def init_out_file(prefix):
 	out_fd = open(prefix + ".h", "wt")
@@ -86,7 +99,6 @@ def close_out_file(prefix):
 	out_fd.write("#endif\n")
 	out_fd.close()
 
-
 g_source_fd = open(g_source_filename, "rt")
 while True:
 	source = g_source_fd.readline()
@@ -101,8 +113,7 @@ while True:
 
 		key_name = get_typedef_key(source)
 		if key_name:
-			print g_prefix + ':' + key_name
-			get_enum(g_source_fd, key_name)
+			get_typedef(g_source_fd, key_name)
 	else:
 		break
 g_source_fd.close()
