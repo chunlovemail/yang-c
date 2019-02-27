@@ -6,9 +6,6 @@ import sys
 #self file
 import common
 
-g_source_filename = sys.argv[1]
-g_prefix = common.cmn_get_prefix(sys.argv[1])
-
 def get_enum_str(source):
 	line = re.match(r'enum', source.strip())
 	if not line:
@@ -18,7 +15,7 @@ def get_enum_str(source):
 	if enum_name:
 		return enum_name[0]
 
-def get_typedef(f_fd, key_name):
+def get_typedef(f_fd, key_name, prefix):
 	tmp_buf = ''
 	b_enum_flag = False
 	enum_list = []
@@ -32,7 +29,7 @@ def get_typedef(f_fd, key_name):
 		if enum_name:
 			define = key_name + '-' + enum_name
 			if not b_enum_flag:
-				enum_list.append("/* " + g_prefix + ':' + key_name + " */")
+				enum_list.append("/* " + prefix + ':' + key_name + " */")
 				enum_list.append("typedef enum en_" + common.cmn_trans_underline(key_name).upper())
 				enum_list.append("{")
 				enum_list.append("    " + common.cmn_trans_underline(define).upper() + "_NONE = 0,")
@@ -46,16 +43,16 @@ def get_typedef(f_fd, key_name):
 	if b_enum_flag:
 		enum_list.append("    " + common.cmn_trans_underline(key_name).upper() + "_MAX")
 		enum_list.append("} EN_" + common.cmn_trans_underline(key_name).upper() + ";\n")
-		common.cmn_write_list_to_file(g_prefix, enum_list)
+		common.cmn_write_list_to_file(prefix, enum_list)
 
 def main(filename):
-	g_source_fd = open(g_source_filename, "rt")
+	source_fd = open(filename, "rt")
 	while True:
-		source = g_source_fd.readline()
+		source = source_fd.readline()
 		if source:
 			key_name = common.cmn_get_typedef_key(source)
 			if key_name:
-				get_typedef(g_source_fd, key_name)
+				get_typedef(source_fd, key_name, common.cmn_get_prefix(sys.argv[1]))
 		else:
 			break
-	g_source_fd.close()
+	source_fd.close()

@@ -7,8 +7,16 @@ import sys
 import common
 import close_output_file
 import open_output_file
-import 
+import typedef_enum
 
 g_source_filename = sys.argv[1]
 
+#create output file, and init header
+open_output_file.init_file(common.cmn_get_prefix(sys.argv[1]))
+
+#trans typedef enum
+typedef_enum.main(g_source_filename)
+
+#add tail to output file
+close_output_file.tail_file(common.cmn_get_prefix(sys.argv[1]))
 
