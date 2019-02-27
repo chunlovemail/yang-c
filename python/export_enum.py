@@ -17,8 +17,8 @@ def tran_underline(source):
 			out += "_"
 	return out
 
-def append_file(prefix, line):
-	out_fd = open(prefix + ".h", "a+")
+def append_file(line):
+	out_fd = open(g_prefix + ".h", "a+")
 	out_fd.write(line + "\n")
 	out_fd.close()
 
@@ -45,6 +45,7 @@ def get_enum_str(source):
 
 def get_enum(f_fd, key_name):
 	enumeration = ''
+	b_flag = False
 	while True:
 		line = f_fd.readline()
 		if not line:
@@ -55,13 +56,21 @@ def get_enum(f_fd, key_name):
 		if enum_name:
 			define = key_name + '-' + enum_name
 			print define
-			append_file(g_prefix, tran_underline(define).upper())
+			if not b_flag:
+				append_file("/* " + g_prefix + ':' + key_name + "*/")
+				append_file("typedef enum en_" + tran_underline(key_name).upper())
+				append_file("{")
+				append_file("    " + tran_underline(define).upper() + "_NONE = 0,")
+				b_flag = True
+			append_file("    " + tran_underline(define).upper() + ",")
 			
 		m = re.findall('{', enumeration)
 		n = re.findall('}', enumeration)
 		if (len(m) == len(n)):
 			#print enumeration
 			break;
+	append_file("    " + tran_underline(key_name).upper() + "_MAX")
+	append_file("} EN_" + tran_underline(key_name).upper() + ";\n")
 	
 def init_out_file(prefix):
 	out_fd = open(prefix + ".h", "wt")
