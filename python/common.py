@@ -3,11 +3,18 @@
 import re
 import sys
 
+#def cmn_get_prefix(filename):
+#	line = filename.strip().split(".")
+#	if line:
+#		prefix = line[0]
+#		return prefix
+
 def cmn_get_prefix(filename):
-	line = filename.strip().split(".")
-	if line:
-		prefix = line[0]
-		return prefix
+	names = filename.strip().split("/")
+	if names:
+		prefix = names[len(names) - 1].strip().split(".")
+		return prefix[0]
+
 
 def cmn_append_file(filename_prefix, line):
 	out_fd = open(filename_prefix + ".h", "a+")
