@@ -29,7 +29,7 @@ def get_typedef(f_fd, key_name, prefix):
 		if enum_name:
 			define = key_name + '-' + enum_name
 			if not b_enum_flag:
-				enum_list.append("/* " + prefix + ':' + key_name + " */")
+				enum_list.append("/* " + prefix + ':' + key_name + " enumeration" + " */")
 				enum_list.append("typedef enum en_" + common.cmn_trans_underline(key_name).upper())
 				enum_list.append("{")
 				enum_list.append("    " + common.cmn_trans_underline(define).upper() + "_NONE = 0,")

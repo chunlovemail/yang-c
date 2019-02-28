@@ -9,8 +9,8 @@ def cmn_get_prefix(filename):
 		prefix = line[0]
 		return prefix
 
-def cmn_append_file(filename, line):
-	out_fd = open(filename + ".h", "a+")
+def cmn_append_file(filename_prefix, line):
+	out_fd = open(filename_prefix + ".h", "a+")
 	out_fd.write(line + "\n")
 	out_fd.close()
 
@@ -24,10 +24,14 @@ def cmn_trans_underline(source):
 	return out
 
 def cmn_get_typedef_type(source):
-	line = re.match(r'type', source.strip())
-	if line:
-		name = source.strip().split(" ")
-		return name[1]
+	print source.strip()
+	p = re.compile(r'.* type .*')
+	lists = p.findall(source.strip())
+	if lists:
+		names = lists[0].strip().split(" ")
+		if names:
+			return names[1]
+	print "cmn_get_typedef_type get error"		
 
 def cmn_get_typedef_key(source):
 	line = re.match(r'typedef', source.strip())
