@@ -45,14 +45,30 @@ def get_typedef(f_fd, key_name, prefix):
 		enum_list.append("} EN_" + common.cmn_trans_underline(key_name).upper() + ";\n")
 		common.cmn_write_list_to_file(prefix, enum_list)
 
+#def main(filename):
+#	source_fd = open(filename, "rt")
+#	while True:
+#		source = source_fd.readline()
+#		if source:
+#			key_name = common.cmn_get_typedef_key(source)
+#			if key_name:
+#				get_typedef(source_fd, key_name, common.cmn_get_prefix(sys.argv[1]))
+#		else:
+#			break
+#	source_fd.close()
+
 def main(filename):
 	source_fd = open(filename, "rt")
 	while True:
-		source = source_fd.readline()
-		if source:
-			key_name = common.cmn_get_typedef_key(source)
-			if key_name:
-				get_typedef(source_fd, key_name, common.cmn_get_prefix(sys.argv[1]))
+		line = source_fd.readline()
+		if line:
+			type_enum = common.get_typedef_enum(source_fd, line)
+			if type_enum:
+				print "\n++++++++++++++++++++++++++++++++++++\n" + type_enum + "----------------------------------------\n"
+				key_name = common.cmn_get_typedef_key(type_enum)
+				if key_name:
+					#print "key_name: " + key_name
+					common.cmn_get_enum(type_enum, key_name, common.cmn_get_prefix(sys.argv[1]))
 		else:
 			break
 	source_fd.close()

@@ -1,0 +1,263 @@
+module: org-openroadm-device
+   +--rw open-optical-device
+      +--rw config
+      |  +--rw contact-info?           string
+      |  +--rw location-info?          string
+      |  +--rw node-id?                string
+      |  +--rw node-number?            uint32
+      |  +--rw administrative-state?   org-openroadm-equipment-states-types:admin-states
+      |  +--rw work-mode?              enumeration
+      |  +--rw ip-interfaces
+      |  |  +--rw interface* [name]
+      |  |     +--rw name       string
+      |  |     +--rw enabled?   boolean
+      |  |     +--rw ipv4
+      |  |     |  +--rw enabled?          boolean
+      |  |     |  +--rw ipAddress?        ietf-inet-types:ipv4-address
+      |  |     |  +--rw netmask?          ietf-inet-types:ipv4-address
+      |  |     |  +--rw defaultGateway?   ietf-inet-types:ipv4-address
+      |  |     +--rw ipv6
+      |  |        +--rw enabled?          boolean
+      |  |        +--rw ipAddress?        ietf-inet-types:ipv6-address
+      |  |        +--rw prefix-length?    uint8
+      |  |        +--rw defaultGateway?   ietf-inet-types:ipv6-address
+      |  +--rw timezone?               int32
+      |  +--rw temperature-up-thr?     decimal64
+      |  +--rw temperature-low-thr?    decimal64
+      |  +--rw clients* [client-name]
+      |  |  +--rw client-name       enumeration
+      |  |  +--rw feature-enable?   boolean
+      |  |  +--rw servers* [server-id]
+      |  |     +--rw server-id      uint32
+      |  |     +--rw server-ip?     ietf-inet-types:ip-address
+      |  |     +--rw server-role?   enumeration
+      |  +--rw services* [service-name]
+      |     +--rw service-name      enumeration
+      |     +--rw service-enable?   boolean
+      +--ro physical
+      |  +--ro node-type?          org-openroadm-common-types:node-types
+      |  +--ro vendor?             string
+      |  +--ro model?              string
+      |  +--ro product-code?       string
+      |  +--ro serial-id?          string
+      |  +--ro manufactor-date?    string
+      |  +--ro clei?               string
+      |  +--ro module-type?        string
+      |  +--ro hardware-version?   string
+      |  +--ro softwareVersion?    string
+      |  +--ro cpld0-version?      string
+      |  +--ro cpld1-version?      string
+      |  +--ro fpga-version?       string
+      |  +--ro eeprom-version?     string
+      |  +--ro macAddrs* [name]
+      |     +--ro name          string
+      |     +--ro macAddress?   ietf-yang-types:mac-address
+      +--ro sub-modules* [module-id]
+      |  +--ro module-id           uint32
+      |  +--ro node-type?          org-openroadm-common-types:node-types
+      |  +--ro vendor?             string
+      |  +--ro model?              string
+      |  +--ro product-code?       string
+      |  +--ro serial-id?          string
+      |  +--ro manufactor-date?    string
+      |  +--ro clei?               string
+      |  +--ro module-type?        string
+      |  +--ro hardware-version?   string
+      |  +--ro softwareVersion?    string
+      |  +--ro cpld0-version?      string
+      |  +--ro cpld1-version?      string
+      |  +--ro fpga-version?       string
+      |  +--ro eeprom-version?     string
+      |  +--ro macAddrs* [name]
+      |     +--ro name          string
+      |     +--ro macAddress?   ietf-yang-types:mac-address
+      +--ro state
+      |  +--ro current-datetime?    string
+      |  +--ro uptime?              string
+      |  +--ro run-time?            string
+      |  +--ro temperature?         decimal64
+      |  +--ro upg-state
+      |  |  +--ro status?       enumeration
+      |  |  +--ro percent?      uint32
+      |  |  +--ro reset-type?   enumeration
+      |  +--ro leds* [led-id]
+      |  |  +--ro led-id    uint32
+      |  |  +--ro led
+      |  |     +--ro led-name?   string
+      |  |     +--ro status?     enumeration
+      |  +--ro reset-cause?         enumeration
+      |  +--ro operational-state?   org-openroadm-common-types:state
+      +--rw external-link* [external-link-name]
+      |  +--rw external-link-name    string
+      |  +--rw source
+      |  |  +--rw node-id              string
+      |  |  +--rw circuit-pack-name    string
+      |  |  +--rw port-name            string
+      |  +--rw destination
+      |     +--rw node-id              string
+      |     +--rw circuit-pack-name    string
+      |     +--rw port-name            string
+      +--rw protocols
+      +--rw ports* [port-id]
+      |  +--rw port-id    -> ../port/port-id
+      |  +--rw port
+      |     +--rw port-id?              uint32
+      |     +--rw port-name             string
+      |     +--ro port-direction?       org-openroadm-common-types:direction
+      |     +--ro port-type?            org-openroadm-port-types:port-wavelength-types
+      |     +--ro port-qual-type?       org-openroadm-port-types:port-qual-types
+      |     +--rw port-target-power?    org-openroadm-common-types:power-dBm
+      |     +--ro port-current-power?   org-openroadm-common-types:power-dBm
+      |     +--ro edfa-id?              uint32
+      |     +--ro osc-id?               uint32
+      |     +--ro port-property
+      |     |  +--ro port-power-capability-min-rx?   org-openroadm-common-types:power-dBm
+      |     |  +--ro port-power-capability-min-tx?   org-openroadm-common-types:power-dBm
+      |     |  +--ro port-power-capability-max-rx?   org-openroadm-common-types:power-dBm
+      |     |  +--ro port-power-capability-max-tx?   org-openroadm-common-types:power-dBm
+      |     |  +--ro capable-wavelengths*            uint32
+      |     +--ro used-wavelengths* [wavelength-number]
+      |        +--ro wavelength-number           uint32
+      |        +--ro wavelength-current-power?   org-openroadm-common-types:power-dBm
+      +--rw optical-amplifier
+      |  +--rw amplifiers
+      |     +--rw amplifier* [name]
+      |        +--rw name      -> ../config/name
+      |        +--rw config
+      |        |  +--rw name?                  string
+      |        |  +--rw type?                  identityref
+      |        |  +--rw target-gain?           decimal64
+      |        |  +--rw target-gain-tilt?      decimal64
+      |        |  +--rw gain-range?            identityref
+      |        |  +--rw amp-mode?              identityref
+      |        |  +--rw target-output-power?   decimal64
+      |        |  +--rw enabled?               boolean
+      |        |  +--rw autolos?               boolean
+      |        |  +--rw apr-enabled?           boolean
+      |        |  +--rw apr-power?             decimal64
+      |        |  +--rw plim-enabled?          boolean
+      |        |  +--rw plim-power?            decimal64
+      |        +--ro state
+      |           +--ro name?                      string
+      |           +--ro type?                      identityref
+      |           +--ro target-gain?               decimal64
+      |           +--ro target-gain-tilt?          decimal64
+      |           +--ro gain-range?                identityref
+      |           +--ro amp-mode?                  identityref
+      |           +--ro target-output-power?       decimal64
+      |           +--ro enabled?                   boolean
+      |           +--ro autolos?                   boolean
+      |           +--ro apr-enabled?               boolean
+      |           +--ro apr-power?                 decimal64
+      |           +--ro plim-enabled?              boolean
+      |           +--ro plim-power?                decimal64
+      |           +--ro operational-state?         enumeration
+      |           +--ro pump-temperature?          decimal64
+      |           +--ro actual-gain
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro actual-gain-tilt
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro input-power-total
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro input-power-c-band
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro input-power-l-band
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro msa-input-power-c-band
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro output-power-total
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro output-power-c-band
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro output-power-l-band
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro msa-output-power-c-band
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro laser-bias-current
+      |           |  +--ro instant?   decimal64
+      |           |  +--ro avg?       decimal64
+      |           |  +--ro min?       decimal64
+      |           |  +--ro max?       decimal64
+      |           +--ro optical-return-loss
+      |              +--ro instant?   decimal64
+      |              +--ro avg?       decimal64
+      |              +--ro min?       decimal64
+      |              +--ro max?       decimal64
+      +--rw evoas* [evoa-id]
+      |  +--rw evoa-id    -> ../evoa/evoa-id
+      |  +--rw evoa
+      |     +--rw evoa-id?       uint32
+      |     +--rw attn-value?    org-openroadm-common-types:ratio-dB
+      |     +--ro attn-actual?   org-openroadm-common-types:ratio-dB
+      +--rw oscs* [osc-id]
+      |  +--rw osc-id    -> ../osc/osc-id
+      |  +--rw osc
+      |     +--rw osc-id?          uint32
+      |     +--ro osc-monitor
+      |     |  +--ro rx-power?     org-openroadm-common-types:power-dBm
+      |     |  +--ro tx-power?     org-openroadm-common-types:power-dBm
+      |     |  +--ro drop-power?   org-openroadm-common-types:power-dBm
+      |     |  +--ro add-power?    org-openroadm-common-types:power-dBm
+      |     +--rw osc-tx-config
+      |        +--rw osc-sfp-enable?   boolean
+      +--rw ocms* [port-id] {wavelength-channel}?
+      |  +--rw port-id        -> ../ocm-port-id
+      |  +--rw ocm-port-id?   uint32
+      |  +--rw ref-point?     enumeration
+      |  +--ro ocm-stats* [wavelength-number]
+      |     +--ro wavelength-number    com-oplink-waveplan:wavelength-number-type
+      |     +--ro wavelength-stats
+      |        +--ro wavelength-power?   org-openroadm-common-types:power-dBm
+      |        +--ro wavelength-osnr?    org-openroadm-common-types:ratio-dB
+      +--ro default-waveplan {wavelength-channel}?
+      |  +--ro wavelengths* [wavelength-number]
+      |     +--ro wavelength-number    wavelength-number-type
+      |     +--ro bandwidth?           wavelength-bandwidth-type
+      |     +--ro center-frequency?    decimal64
+      |     +--ro wavelength?          decimal64
+      +--rw connections* [connection-id] {wavelength-channel}?
+      |  +--rw connection-id          uint32
+      |  +--rw source
+      |  |  +--rw port-id?         port-id-type
+      |  |  +--rw wavelength-id?   com-oplink-waveplan:wavelength-number-type
+      |  +--rw destination
+      |  |  +--rw port-id?         port-id-type
+      |  |  +--rw wavelength-id?   com-oplink-waveplan:wavelength-number-type
+      |  +--rw attenuation?           org-openroadm-common-types:ratio-dB
+      |  +--rw target-output-power?   org-openroadm-common-types:power-dBm
+      +--ro slots-state
+         +--ro slots* [slot-id]
+            +--ro slot-id        uint32
+            +--ro slot-name?     string
+            +--ro label?         string
+            +--ro slot-status?   enumeration
