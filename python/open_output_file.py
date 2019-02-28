@@ -10,4 +10,6 @@ def init_file(prefix):
 	out_fd.write("#ifndef " + "_" + common.cmn_trans_underline(prefix).upper() + "_" + "\n")
 	out_fd.write("#define " + "_" + common.cmn_trans_underline(prefix).upper() + "_" + "\n")
 	out_fd.write("\n")
+	out_fd.write("#include <stdio.h>\n")
+	out_fd.write("\n")
 	out_fd.close()
