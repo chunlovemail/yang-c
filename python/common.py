@@ -25,7 +25,7 @@ def cmn_trans_underline(source):
 	return out
 
 def cmn_get_typedef_type(source):
-	print source.strip()
+	#print source.strip()
 	p = re.compile(r'.* type .*')
 	lists = p.findall(source.strip())
 	if lists:
@@ -81,6 +81,10 @@ def get_leaf_enum_buf(source_fd, source):
 		return tmp_buf
 
 def get_typedef_enum(f_fd, source):
+	ret = cmn_get_typedef_key(source)
+	if not ret:
+		return
+		
 	tmp_buf = source
 	while True:
 		line = f_fd.readline()
@@ -93,7 +97,7 @@ def get_typedef_enum(f_fd, source):
 		if ((len(m) == len(n)) and (len(m) != 0)):
 			break;
 	
-	ret = re.search("enumeration", tmp_buf)
+	ret = re.search("typedef", tmp_buf)
 	if ret:
 		return tmp_buf
 

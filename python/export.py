@@ -17,7 +17,7 @@ g_source_filename = sys.argv[1]
 open_output_file.init_file(common.cmn_get_prefix(sys.argv[1]))
 
 #trans typedef enum
-#typedef_enum.main(g_source_filename)
+typedef_enum.main(g_source_filename)
 
 #trans typedef not enum
 typedef_type.main(g_source_filename)

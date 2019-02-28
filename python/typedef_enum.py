@@ -64,10 +64,12 @@ def main(filename):
 		if line:
 			type_enum = common.get_typedef_enum(source_fd, line)
 			if type_enum:
-				print "\n++++++++++++++++++++++++++++++++++++\n" + type_enum + "----------------------------------------\n"
+				#print "\n++++++++++++++++++++++++++++++++++++\n" + type_enum + "----------------------------------------\n"
 				key_name = common.cmn_get_typedef_key(type_enum)
-				if key_name:
+				ret = common.cmn_has_enumeration(type_enum)
+				if key_name and ret:
 					#print "key_name: " + key_name
+					#print "\n++++++++++++++++++++++++++++++++++++\n" + type_enum + "----------------------------------------\n"
 					common.cmn_get_enum(type_enum, key_name, common.cmn_get_prefix(sys.argv[1]))
 		else:
 			break
